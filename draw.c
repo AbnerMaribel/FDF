@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 02:38:03 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/05 20:39:29 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/05 22:12:01 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	int max;
 	int z;
 	int z1;
+	int i;
 
 	z = data->z_matrix[(int)y][(int)x];
 	z1 = data->z_matrix[(int)y1][(int)x1];
@@ -56,12 +57,27 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	y *= data->zoom;
 	x1 *= data->zoom;
 	y1 *= data->zoom;
-	if (z > 0 || z1 > 0)
-		data->color = 0x9c40b3;
-	else if (z < 0 || z1 < 0)
-		data->color = 0x3270b3;
-	else
+	if (z == 0 && z1 == 0)
+	{
 		data->color = 0xffffff;
+		data->color1 = 0xffffff;
+	}
+	else if (z != 0 && z1 != 0 && (z1 - z) == 0)
+	{
+		data->color = 0x9c40b3;
+		data->color1 = 0x9c40b3;
+	}
+	else if (z == 0 || z1 == 0)
+	{
+		data->color = 0xdec41d;
+		data->color1 = 0xd227db;
+	}
+	// if (z > 0 || z1 > 0)
+	// 	data->color = 0x9c40b3;
+	// else if (z < 0 || z1 < 0)
+	// 	data->color = 0x3270b3;
+	// else
+	// 	data->color = 0xffffff;
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	x += 400;
@@ -73,11 +89,13 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	max = ft_max(mod(x_step), mod(y_step));
 	x_step /= max;
 	y_step /= max;
-	while((int)(x - x1) || (int)(y - y1))
+	i = 0;
+	while(i < max)
 	{
-		my_mlx_pixel_put(data, x, y, data->color);
-		x += x_step;
-		y += y_step;
+		my_mlx_pixel_put(data, x + x_step * i, y + y_step * i, get_gradient(data->color, data->color1, max, i));
+		// x += x_step;
+		// y += y_step;
+		i++;
 	}
 }
 

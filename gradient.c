@@ -5,64 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 16:33:41 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/02 17:18:20 by amaribel         ###   ########.fr       */
+/*   Created: 2022/03/05 20:58:56 by amaribel          #+#    #+#             */
+/*   Updated: 2022/03/05 22:04:16 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// double percent(int start, int end, int current)
+// double percent(int min_z, int max_z, int z)
 // {
-//     double placement;
 //     double distance;
-//     double prc;
+//     double delta;
 
-//     placement = current - start;
-//     distance = end - start;
+//     distance = max_z - min_z;
+//     delta = z - min_z;
 //     if (distance == 0)
-//         prc = 1.0;
-//     prc = placement / distance;   
-//     return (prc);
+//         return (1.0);
+//     else
+//         return (delta / distance);
 // }
 
-// void    bresenham(float , t_point end, fdf *data) 
+// int gradient(double point)
 // {
-// 	float x_step;
-// 	float y_step;
-// 	int max;
-// 	int z;
-// 	int z1;
-
-// 	z = data->z_matrix[(int)start.y][(int)start.x];
-// 	z1 = data->z_matrix[(int)end.y][(int)end.x];
-	
-// 	start.x *= data->zoom; 
-// 	start.y *= data->zoom;
-// 	end.x *= data->zoom;
-// 	end.y *= data->zoom;
-
-// 	if (z > 0 || z1 > 0)
-// 		data->color = 0x9c40b3;
-// 	else if (z < 0 || z1 < 0)
-// 		data->color = 0xf50505;
-// 	isometric(&start.x, &start.y, z);
-// 	isometric(&end.x, &end.y, z1);
-
-// 	start.x += 200;
-// 	start.y += 200;
-// 	end.x += 200;
-// 	end.y += 200;
-	
-// 	x_step = end.x - start.x; 
-// 	y_step = end.y - start.y; 
-// 	max = ft_max(mod(x_step), mod(y_step));
-// 	x_step /= max;
-// 	y_step /= max;
-// 	while((int)(start.x - end.x) || (int)(start.y - end.y))
-// 	{
-// 		my_mlx_pixel_put(data, start.x, start.y, get_gradient(start.color, end.color, max, max - 1));
-// 		start.x += x_step;
-// 		start.y += y_step;
-// 	}
+//     if (point)
+//         return(YELLOW);
+//     else if (point)
+//         return(GREEN);
+//     else if (point)
+//         return(BLUE);
+//     else if (point)
+//         return(DARK_BLUE);
+//     else if (point)
+//         return(PINK);
+//     else
+//         return(RED);
 // }
+
+int	create_rgb(int red, int green, int blue)
+{
+	return (red << 16 | green << 8 | blue);
+}
+
+int get_spectr(int color, int mask, int shift)
+{
+	return ((color & mask) >> shift);
+}
+
+int		get_gradient(int start, int end, size_t range, size_t point)
+{
+	int	result;
+	int	red;
+	int	green;
+	int	blue;
+
+	if (point > range)
+		point = range;
+	red = get_spectr(end, R_MASK, R_SHIFT) - get_spectr(start, R_MASK, R_SHIFT);
+	green = get_spectr(end, G_MASK, G_SHIFT) - get_spectr(start, G_MASK, G_SHIFT);
+	blue = get_spectr(end, B_MASK, B_SHIFT) - get_spectr(start, B_MASK, B_SHIFT);
+	result	= create_rgb((int)(get_spectr(start, R_MASK, R_SHIFT) + (double)red / range * point), (int)(get_spectr(start, G_MASK, G_SHIFT) + (double)green / range * point), (int)(get_spectr(start, B_MASK, B_SHIFT) + (double)blue / range * point));
+	return (result);
+}
