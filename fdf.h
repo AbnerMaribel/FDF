@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:19:05 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/05 21:55:06 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:27:19 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ typedef struct
 	int endian;
 }	fdf;
 
-typedef struct	s_point 
-{
-	double	x;
-	double	y;
-	double 	z;
-	int		color;
-}	t_point;
+// typedef struct	s_point 
+// {
+// 	double	x;
+// 	double	y;
+// 	double 	z;
+// 	int		color;
+// }	t_point;
 
 
 void	read_file(char *filename, fdf *data);

@@ -6,21 +6,26 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 18:08:38 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/05 22:05:54 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:23:27 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int end(void *var)
+int end(void *data)
 {
+	data = (fdf *)data;
+	ft_free_fdf(data);
 	exit(0);
 }
 
 int keys(int key, fdf *data)
 {
 	if (key == 53)
-		exit(0);	
+	{
+		ft_free_fdf(data);
+		exit(0);
+	}	
 	return(0);
 }
 
@@ -38,12 +43,13 @@ int	main(int argc, char **argv)
 	data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF");
 	data->image = mlx_new_image (data->mlx_ptr, 1000, 1000);
 	data->arr = mlx_get_data_addr(data->image, &data->bpp, &data->line_length, &data->endian);
-	data->zoom = 45;
+	data->zoom = 40;
 	draw(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image, 0, 0);
 	mlx_key_hook(data->win_ptr, keys, data);
-	mlx_hook(data->win_ptr, 17, 0, end, NULL);
+	mlx_hook(data->win_ptr, 17, 0, end, (void *)data);
 	mlx_loop(data->mlx_ptr);
-	ft_free_fdf(data);
+	mlx_destroy_image(data->mlx_ptr, data->image);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	return (0);
 }

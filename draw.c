@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 02:38:03 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/05 22:12:01 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/08 12:30:51 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void my_mlx_pixel_put(fdf *data, int x, int y, int color)
 {
 	char *dst;
 	
-	dst = malloc(sizeof(char) * (data->width * data->height + 1));
 	dst = data->arr + (y * data->line_length + x * (data->bpp / 8));
 	*(int *)dst = color;
 }
@@ -57,33 +56,29 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	y *= data->zoom;
 	x1 *= data->zoom;
 	y1 *= data->zoom;
+	z *= data->zoom;
+	z1 *= data->zoom;
 	if (z == 0 && z1 == 0)
 	{
-		data->color = 0xffffff;
-		data->color1 = 0xffffff;
+		data->color = 0xa2c7fe;
+		data->color1 = 0xa2c7fe;
 	}
 	else if (z != 0 && z1 != 0 && (z1 - z) == 0)
 	{
-		data->color = 0x9c40b3;
-		data->color1 = 0x9c40b3;
+		data->color = 0xc016f0;
+		data->color1 = 0xc016f0;
 	}
 	else if (z == 0 || z1 == 0)
 	{
-		data->color = 0xdec41d;
-		data->color1 = 0xd227db;
+		data->color = 0xffd1ff;
+		data->color1 = 0xffd1ff;
 	}
-	// if (z > 0 || z1 > 0)
-	// 	data->color = 0x9c40b3;
-	// else if (z < 0 || z1 < 0)
-	// 	data->color = 0x3270b3;
-	// else
-	// 	data->color = 0xffffff;
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	x += 400;
-	y += 200;
+	y += 400;
 	x1 += 400;
-	y1 += 200;
+	y1 += 400;
 	x_step = x1 - x; 
 	y_step = y1 - y; 
 	max = ft_max(mod(x_step), mod(y_step));
@@ -93,8 +88,6 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	while(i < max)
 	{
 		my_mlx_pixel_put(data, x + x_step * i, y + y_step * i, get_gradient(data->color, data->color1, max, i));
-		// x += x_step;
-		// y += y_step;
 		i++;
 	}
 }
