@@ -11,7 +11,7 @@ MAGENTA	=	\033[01;35m
 CYAN	=	\033[01;36m
 TEST_C	=	\033[02;30m
 
-SRCS	= 	main.c ft_free.c reading_file.c draw.c gradient.c\
+SRCS	= 	main.c ft_free.c reading_file.c draw.c gradient.c utils.c\
  			get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 LIB 	= ./libft/libft.a

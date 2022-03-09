@@ -6,30 +6,30 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 23:02:22 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/07 11:54:25 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/08 18:28:47 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void ft_free_fdf(fdf *data)
+void	ft_free_fdf(fdf *data)
 {
-	int height;
-	int i;
+	int	height;
+	int	i;
 
 	height = data->height;
 	i = 0;
 	while (i < height)
 	{
-		free(data->z_matrix[i]);
+		free(data->matrix[i]);
 		i++;
 	}
-	free(data->z_matrix);
+	free(data->matrix);
 	free(data->arr);
 	free(data);
 }
 
-void ft_free_char(char **words)
+void	ft_free_char(char **words)
 {
 	int	i;
 

@@ -6,19 +6,12 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:19:05 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/07 12:27:19 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:37:41 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-
-// # define YELLOW 0xdec41d
-// # define GREEN 0x85e610
-// # define BLUE 0x10dbe6
-// # define DARK_BLUE  0x1734c2
-// # define PINK 0xd227db
-// # define RED 0xe61e28
 
 # define R_MASK		0xFF0000
 # define R_SHIFT	16
@@ -38,7 +31,7 @@ typedef struct
 {
 	int width;
 	int height;
-	int **z_matrix;
+	int **matrix;
 	int zoom;
 	int color;
 	int color1;
@@ -51,29 +44,47 @@ typedef struct
 	int endian;
 }	fdf;
 
-// typedef struct	s_point 
-// {
-// 	double	x;
-// 	double	y;
-// 	double 	z;
-// 	int		color;
-// }	t_point;
+typedef struct	s_point 
+{
+	float	x;
+	float	y;
+	float 	z;
+	int		color;
+}	t_point;
 
 
-void	read_file(char *filename, fdf *data);
+//main.c
+int	end(void *data);
+int	keys(int key, fdf *data);
+
+//reading_file.c
 int	get_height(char *filename);
+int	ft_counter(char *s, char c);
 int	get_width(char *filename);
-void fill_matrix(int *z_line, char *line);
-// void ft_free_int(int **words, int height);
-void ft_free_fdf(fdf *data);
-void ft_free_char(char **words);
-void	bresenham(float x, float y, float x1, float y1, fdf *data);
-void draw(fdf *data);
-int ft_max(float a, float b);
-float mod(float i);
-int keys(int key, fdf *data);
-void isometric(float *x, float *y, float z);
-void my_mlx_pixel_put(fdf *data, int x, int y, int color);
-int		get_gradient(int start, int end, size_t range, size_t point);
+void	fill_matrix(int *z_line, char *line);
+void	read_file(char *filename, fdf *data);
+t_point **coord_matrix(fdf *data);
+
+//draw.c
+void	my_mlx_pixel_put(fdf *data, int x, int y, int color);
+void	isometric(float *x, float *y, float z);
+void	set_color(t_point point1, t_point point2, fdf *data);
+void	bresenham(t_point point1, t_point point2, fdf *data);
+void	draw(fdf *data, t_point **matrix);
+
+//gradient.c
+int	create_rgb(int red, int green, int blue);
+int	spectr(int color, int mask, int shift);
+int	get_gradient(int start, int end, size_t range, size_t point);
+
+//ft_free.c
+void	ft_free_fdf(fdf *data);
+void	ft_free_char(char **words);
+
+//utils.c
+int	ft_max(float a, float b);
+float	mod(float i);
+void	zoom(t_point *point1, t_point *point2, fdf *data);
+void	window_position(t_point *point1, t_point *point2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 20:58:56 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/07 16:51:31 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/08 12:48:54 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,26 @@ int	create_rgb(int red, int green, int blue)
 	return (red << 16 | green << 8 | blue);
 }
 
-int get_spectr(int color, int mask, int shift)
+int	spectr(int color, int mask, int shift)
 {
 	return ((color & mask) >> shift);
 }
 
-int		get_gradient(int start, int end, size_t range, size_t point)
+int	get_gradient(int start, int end, size_t range, size_t point)
 {
-	int	result;
-	int	red;
-	int	green;
-	int	blue;
+	int	res;
+	int	r;
+	int	g;
+	int	b;
 
 	if (point > range)
 		point = range;
-	red = get_spectr(end, R_MASK, R_SHIFT) - get_spectr(start, R_MASK, R_SHIFT);
-	green = get_spectr(end, G_MASK, G_SHIFT) - get_spectr(start, G_MASK, G_SHIFT);
-	blue = get_spectr(end, B_MASK, B_SHIFT) - get_spectr(start, B_MASK, B_SHIFT);
-	result	= create_rgb((int)(get_spectr(start, R_MASK, R_SHIFT) + (double)red / range * point), 
-						(int)(get_spectr(start, G_MASK, G_SHIFT) + (double)green / range * point), 
-						(int)(get_spectr(start, B_MASK, B_SHIFT) + (double)blue / range * point));
-	return (result);
+	r = spectr(end, R_MASK, R_SHIFT) - spectr(start, R_MASK, R_SHIFT);
+	g = spectr(end, G_MASK, G_SHIFT) - spectr(start, G_MASK, G_SHIFT);
+	b = spectr(end, B_MASK, B_SHIFT) - spectr(start, B_MASK, B_SHIFT);
+	res = create_rgb((int)(spectr(start, R_MASK, R_SHIFT)
+				+ (double)r / range * point),
+			(int)(spectr(start, G_MASK, G_SHIFT) + (double)g / range * point),
+			(int)(spectr(start, B_MASK, B_SHIFT) + (double)b / range * point));
+	return (res);
 }
