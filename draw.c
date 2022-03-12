@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 02:38:03 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/08 21:22:02 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/12 11:21:22 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,39 @@
 void	my_mlx_pixel_put(fdf *data, int x, int y, int color)
 {
 	char	*dst;
-
+	if (x >= 1000 || x <= 0 || y <= 0 || y >= 1000)
+		return ;
 	dst = data->arr + (y * data->line_length + x * (data->bpp / 8));
 	*(int *)dst = color;
 }
 
 void	isometric(float *x, float *y, float z)
 {
-	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
+	*x = (*x - *y) * cos(0.523599);
+	*y = (*x + *y) * sin(0.523599) - z;
 }
 
-void	set_color(t_point point1, t_point point2, fdf *data)
-{
-	if (point1.z == 0 && point2.z == 0)
-	{
-		data->color = 0xa2c7fe;
-		data->color1 = 0xa2c7fe;
-	}
-	else if (point1.z != 0 && point2.z != 0 && (point2.z - point1.z) == 0)
-	{
-		data->color = 0xc016f0;
-		data->color1 = 0xc016f0;
-	}
-	else if (point1.z == 0 || point2.z == 0)
-	{
-		data->color = 0xffd1ff;
-		data->color1 = 0x1b1ebf;
-	}
-}
-
-void	bresenham(t_point point1, t_point point2, fdf *data)
+void	bresenham(point point1, point point2, fdf *data)
 {
 	float	x_step;
 	float	y_step;
 	int		max;
-	float	i;
+	int	i;
 
-	// point1.z = data->matrix[(int)(point1.y)][(int)(point1.x)];
-	// point2.z = data->matrix[(int)point2.y][(int)point2.x];
 	zoom(&point1, &point2, data);
-	set_color(point1, point2, data);
-	isometric(&point1.x, &point1.y, point1.z);
-	isometric(&point2.x, &point2.y, point2.z);
-	//window_position(&point1, &point2);
+	if (data->flag == 1) // изометрическая проекция
+	{
+		isometric(&point1.x, &point1.y, point1.z);
+		isometric(&point2.x, &point2.y, point2.z);
+	}
+	if (data->flag == 2) // вращение
+	{
+		isometric(&point1.x, &point1.y, point1.z);
+		isometric(&point2.x, &point2.y, point2.z);
+		rotate(&point1.x, &point1.y, data->angle);
+		rotate(&point2.x, &point2.y, data->angle);
+	}
+	window_position(&point1, &point2, data);
 	x_step = point2.x - point1.x;
 	y_step = point2.y - point1.y;
 	max = ft_max(mod(x_step), mod(y_step));
@@ -69,12 +58,12 @@ void	bresenham(t_point point1, t_point point2, fdf *data)
 	while (i < max)
 	{
 		my_mlx_pixel_put(data, point1.x + x_step * i, point1.y + y_step * i,
-			get_gradient(data->color, data->color1, max, i));
+			get_gradient(point1.color, point2.color, max, i));
 		i++;
 	}
 }
 
-void	draw(fdf *data, t_point **matrix)
+void	draw(fdf *data, point **matrix)
 {
 	int	i;
 	int	j;

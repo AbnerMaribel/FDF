@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:19:05 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/09 13:37:41 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/12 11:10:01 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,18 @@
 
 typedef struct
 {
+	float	x;
+	float	y;
+	float 	z;
+	int		color;
+}	point;
+
+typedef struct
+{
 	int width;
 	int height;
-	int **matrix;
+	point **matrix;
 	int zoom;
-	int color;
-	int color1;
 	void *mlx_ptr;
 	void *win_ptr;
 	void *image;
@@ -42,15 +48,12 @@ typedef struct
 	int bpp;
 	int line_length;
 	int endian;
+	int shift_x;
+	int shift_y;
+	int flag;
+	double angle;
 }	fdf;
 
-typedef struct	s_point 
-{
-	float	x;
-	float	y;
-	float 	z;
-	int		color;
-}	t_point;
 
 
 //main.c
@@ -61,16 +64,15 @@ int	keys(int key, fdf *data);
 int	get_height(char *filename);
 int	ft_counter(char *s, char c);
 int	get_width(char *filename);
-void	fill_matrix(int *z_line, char *line);
+void	fill_matrix(point *matrix_line, int line_num, char *line, fdf *data);
 void	read_file(char *filename, fdf *data);
-t_point **coord_matrix(fdf *data);
 
 //draw.c
 void	my_mlx_pixel_put(fdf *data, int x, int y, int color);
 void	isometric(float *x, float *y, float z);
-void	set_color(t_point point1, t_point point2, fdf *data);
-void	bresenham(t_point point1, t_point point2, fdf *data);
-void	draw(fdf *data, t_point **matrix);
+void	set_color(point point1, point point2, fdf *data);
+void	bresenham(point point1, point point2, fdf *data);
+void	draw(fdf *data, point **matrix);
 
 //gradient.c
 int	create_rgb(int red, int green, int blue);
@@ -84,7 +86,11 @@ void	ft_free_char(char **words);
 //utils.c
 int	ft_max(float a, float b);
 float	mod(float i);
-void	zoom(t_point *point1, t_point *point2, fdf *data);
-void	window_position(t_point *point1, t_point *point2);
+void	zoom(point *point1, point *point2, fdf *data);
+void	window_position(point *point1, point *point2, fdf *data);
+int	ft_atoi1(char *str);
+
+//rotate.c
+void rotate(float *x, float *y, double angle);
 
 #endif
