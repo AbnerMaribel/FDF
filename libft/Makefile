@@ -6,7 +6,7 @@
 #    By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/08 19:05:25 by amaribel          #+#    #+#              #
-#    Updated: 2022/03/11 17:40:11 by amaribel         ###   ########.fr        #
+#    Updated: 2022/03/13 10:36:51 by amaribel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,6 @@ $(NAME):	$(OBJS) $(HEADER)
 	@ar rcs $(NAME) $?
 	
 %.o : %.c 	$(HEADER)
-	@printf "🦋"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:		

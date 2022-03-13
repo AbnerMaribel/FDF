@@ -1,43 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 23:02:22 by amaribel          #+#    #+#             */
+/*   Created: 2022/03/12 16:07:03 by amaribel          #+#    #+#             */
 /*   Updated: 2022/03/13 10:17:57 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_free_fdf(t_fdf *data)
+void	data_init(t_fdf *data)
 {
-	int	height;
-	int	i;
-
-	height = data->height;
-	i = 0;
-	while (i < height)
-	{
-		free(data->matrix[i]);
-		i++;
-	}
-	free(data->matrix);
-	free(data->arr);
-	free(data);
-}
-
-void	ft_free_char(char **words)
-{
-	int	i;
-
-	i = 0;
-	while (words[i])
-	{
-		free(words[i]);
-		i++;
-	}
-	free(words);
+	data->zoom = 20;
+	data->shift_x = 400;
+	data->shift_y = 400;
+	data->flag = 1;
+	data->angle = 0.523599;
 }

@@ -6,7 +6,7 @@
 /*   By: amaribel <amaribel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 13:37:08 by amaribel          #+#    #+#             */
-/*   Updated: 2022/03/12 09:30:29 by amaribel         ###   ########.fr       */
+/*   Updated: 2022/03/13 10:18:28 by amaribel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ float	mod(float i)
 	return (i);
 }
 
-void	zoom(point *point1, point *point2, fdf *data)
+void	zoom(t_point *point1, t_point *point2, t_fdf *data)
 {
 	point1->x *= data->zoom;
 	point1->y *= data->zoom;
@@ -37,7 +37,7 @@ void	zoom(point *point1, point *point2, fdf *data)
 	point2->z *= data->zoom;
 }
 
-void	window_position(point *point1, point *point2, fdf *data)
+void	window_position(t_point *point1, t_point *point2, t_fdf *data)
 {
 	point1->x += data->shift_x;
 	point1->y += data->shift_y;
@@ -49,15 +49,15 @@ int	ft_atoi1(char *str)
 {
 	int	res;
 	int	len;
-	int num;
+	int	num;
 	int	i;
 
 	i = 0;
 	res = 0;
-    len = ft_strlen(str);
-	while(i < len)
-    {
-        if (str[i] >= 'a' && str[i] <= 'f')
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] >= 'a' && str[i] <= 'f')
 			num = str[i] - 87;
 		if (str[i] >= 'A' && str[i] <= 'F')
 			num = str[i] - 55;
@@ -65,6 +65,6 @@ int	ft_atoi1(char *str)
 			num = str[i] - '0';
 		res = res + num * pow(16, (len - i - 1));
 		i++;
-    }
+	}
 	return (res);
 }
